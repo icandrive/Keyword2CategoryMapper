@@ -3,4 +3,4 @@ Keyword2CategoryMapper
 
 Simple jquery tool to map keywords to categories
 
-- icandrive.ca
+- <a href="http://icandrive.ca">icandrive.ca</a>
