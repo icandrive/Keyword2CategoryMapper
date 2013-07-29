@@ -1,0 +1,116 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+function IsIn(str1, str2){
+   str1 = str1.trim();
+   str2 = str2.trim();
+   var a = str1.split(' ');
+   var b = str2.split(' ');
+   for(x=0; x<a.length;x++){
+     	inStr = false;			
+		for(y=0; y<b.length;y++){
+	        elm1 = a[x].toLowerCase();
+			elm2 = b[y].toLowerCase();
+			   
+			if(elm2.search(elm1) > -1)
+            	inStr = true;
+       	}
+       	if(inStr == false)
+       		return false;
+    }
+    return true;
+   
+}
+
+function keywordInArray(keyw, arr,level){
+	for(j=0; j<arr.length; j++){
+		arr_elm = arr[j].split(',');
+		arr_elm[0] = arr_elm[0].trim();
+		arr_elm[1] = arr_elm[1].trim();
+		
+		if(level == arr_elm[1]){
+			if(IsIn(arr_elm[0],keyw) == true){
+				console.log("IsIn('"+arr_elm[0]+"', '"+keyw+"');");
+				return arr_elm[0];
+			}
+		}
+	}
+	return false;
+}
+$(document).ready(function(){
+	$('#button1').click(function(){
+		$('#t3').val('');
+        var t1 = $('#t1').val().split('\n');
+        console.log("category list length is:" + t1.length);
+        var t2 = $('#t2').val().split('\n');
+        console.log("keyword list length is:" + t2.length);
+        for(i=0; i<t2.length;i++){        	
+        	cat1 = '---';
+            cat2 = '---';	
+            result = keywordInArray(t2[i], t1, 1);
+            console.log(result);
+            if(result != false){//level1
+                cat1 = result;
+                result = keywordInArray(t2[i], t1, 2);
+                if(result != false)
+                    cat2 = result;
+            }else{//level2
+                result = keywordInArray(t2[i], t1, 2);
+                if(result != false)
+                    cat1 = result;
+            
+            }
+            
+            $('#t3').val($('#t3').val()+t2[i]+','+cat1+','+cat2+'\n');
+                    
+        }	
+	})
+
+
+})
+</script>
+</head>
+<body>
+
+<table>
+<tr>
+	<td><i>Category,level</i></td>
+	<td>
+	<textarea id="t1" cols="60" rows="5">
+categoryOne,1
+categoryTwo,2
+insurance,2</textarea>
+<p></p>
+	</td>
+</tr>
+<tr>
+	<td><i>Keyword dump</i></td>
+	<td>
+	<textarea id="t2" cols="60" rows="5">
+Cheap insurance quotes categoryOne
+insurance quotes London categoryTwo</textarea>
+	</td>
+</tr>
+<tr>
+	<td><i>Result:</i></td>
+	<td>
+	<textarea id="t3" cols="60" rows="5"></textarea>
+	</td>
+</tr>
+<tr>
+<td colspan="2">
+<button id="button1">>>>>Do Stuff>>>>></button>
+</td>
+</tr>
+</table>
+
+
+
+
+
+
+
+</body>
+</html>
